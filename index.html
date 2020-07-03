@@ -1,0 +1,227 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>New York Times</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <style>
+        @font-face {
+            font-family: Chomsky;
+            src: url('font/Chomsky.otf');
+        }
+        @font-face {
+            font-family: bookman;
+            src: url("font/bookman.ttf");
+        }
+        @font-face {
+            font-family: imperial;
+            src: url('font/imperial');
+             }
+        .maincont{
+            width: 80%;
+            margin: 10px 10%;
+            border: 1px solid black;
+            padding: 10px;
+        }
+        .heading{
+            font-size: 60px;
+            font-family: chomsky;
+            text-decoration: underline;
+            text-align: center;
+            border-bottom:1px solid black ;
+            padding: 10px;
+        }
+        .bDiv{
+            display: flex;
+            justify-content: space-between;
+            border: 2px black;
+            border-style: none none double none;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        .mybutton{
+            background-color: white;
+            font-family: bookman;
+            border: none;
+            text-transform: capitalize;
+            font-weight: bold;
+        }
+        .mybutton:hover{
+            outline: none;
+            color: white;
+            background-color: black;
+            border: 1px solid black;
+            border-radius: 5px;
+
+        }
+        .mybutton:focus{
+            outline: none;
+            color: white;
+            background-color: black;
+            border: 1px solid black;
+        }
+        .outbox{
+            margin: 5px;
+            padding: 5px;
+        }
+        .mysection{
+            display: flex;
+            justify-content:space-evenly;
+            font-family: imperial;
+            margin: 10px auto;
+            padding: 5px;
+            border: 2px black;
+            border-style: none none double none;
+        }
+        .myimg{
+            flex: 1;
+            padding-left: 5px;
+            border-left: 1px solid black;
+        }
+        .myresult{
+            flex:2;
+            padding-right: 10px;
+        }
+        .myRSection{
+            text-transform: capitalize;
+            color: blue;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .myvURL{
+            text-transform: capitalize;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .myRTitle{
+            font-weight: bolder;
+            font-size: 28px;
+            text-transform: capitalize;
+        }
+        .myRDate{
+            font-size: 15px;
+            font-weight: bold;
+        }
+        .myRAbstract, .myRByline{
+            text-align: justify;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+    </style>
+</head>
+<body>
+    <script>
+
+        var mainContainer = document.createElement("div")
+        mainContainer.setAttribute("class","maincont")
+        document.body.append(mainContainer)
+
+        var vHeading = document.createElement("div")
+        vHeading.innerHTML="The New York Times"
+        vHeading.setAttribute("class","heading")
+        mainContainer.appendChild(vHeading)
+
+        var arr=["arts","automobiles","books","business","fashion","food","health","home","insider","magazine","movies","nyregion","obituaries"]
+        var arr2=["opinion","politics","realestate","science","sports","sundayreview","technology","theater","t-magazine","travel","upshot","us","world"]
+
+        var buttonDiv1 = document.createElement("div")
+        buttonDiv1.setAttribute("class","bDiv")
+        mainContainer.appendChild(buttonDiv1)
+
+        var buttonDiv2 = document.createElement("div")
+        buttonDiv2.setAttribute("class","bDiv")
+        mainContainer.appendChild(buttonDiv2)
+        
+        arr.forEach((element)=>{
+            var Button1 = document.createElement("button")
+            Button1.type="button"
+            Button1.setAttribute("class","myButton")
+            Button1.innerHTML=element
+            Button1.addEventListener("click",()=>{getdata(element);vOutput.innerHTML=""})
+            buttonDiv1.appendChild(Button1)
+        })
+
+        arr2.forEach((element)=>{
+            var Button2 = document.createElement("button")
+            Button2.type="button"
+            Button2.setAttribute("class","myButton")
+            Button2.innerHTML=element
+            Button2.addEventListener("click",()=>{getdata(element);vOutput.innerHTML=""})
+            buttonDiv2.appendChild(Button2)
+        })
+
+        var vOutput = document.createElement("div")
+        vOutput.setAttribute("id","outputbox")
+        vOutput.setAttribute('class',"outbox")
+        mainContainer.appendChild(vOutput)
+
+        async function getdata(value){
+            var url = `https://api.nytimes.com/svc/topstories/v2/${value}.json?api-key=0Ks2Yne4EmATvRE6aFeRPD0HJjdAGyrG`
+
+            var response = await fetch(url)
+            var result = await response.json();
+
+            console.log(result.results)
+
+            result.results.forEach((element)=>{
+
+                var vSection = document.createElement("div")
+                vSection.setAttribute("class","mysection")
+
+                var vResult =document.createElement("div")
+                vResult.setAttribute("class","myresult")
+
+                var vRSection = document.createElement("div")
+                vRSection.setAttribute("class","myRSection")
+                vRSection.innerHTML = element.section
+                vResult.appendChild(vRSection)
+
+                var vRTitle = document.createElement("div")
+                vRTitle.setAttribute("class","myRTitle")
+                vRTitle.innerHTML = element.title
+                vResult.appendChild(vRTitle)
+
+                var vRDate = document.createElement("div")
+                vRDate.setAttribute("class","myRDate")
+                vRDate.innerHTML = element.published_date.substring(0,10)
+                vResult.appendChild(vRDate)
+
+                var vRAbstract = document.createElement("div")
+                vRAbstract.setAttribute("class","myRAbstract")
+                vRAbstract.innerHTML = element.abstract
+                vResult.appendChild(vRAbstract)
+
+                var vRByline = document.createElement("div")
+                vRByline.setAttribute("class","myRByline")
+                vRByline.innerHTML = "-"+element.byline
+                vResult.appendChild(vRByline)
+
+                var vBR = document.createElement("br")
+                vResult.appendChild(vBR)
+
+                var vURL = document.createElement("a")
+                vURL.setAttribute("class","myvURL")
+                vURL.setAttribute("href",element.short_url)
+                vURL.setAttribute("target","_blank")
+                vURL.innerHTML = "Continue Reading"
+                vResult.appendChild(vURL)
+               
+
+                var vImg = document.createElement("object")
+                vImg.setAttribute("class","myimg")
+                vImg.data= element.multimedia[4].url
+
+                vSection.appendChild(vResult)
+                vSection.appendChild(vImg)
+                vOutput.appendChild(vSection)
+
+            })              
+        }
+
+    </script>    
+</body>
+</html>
