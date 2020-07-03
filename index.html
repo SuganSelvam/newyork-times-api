@@ -160,68 +160,70 @@
         mainContainer.appendChild(vOutput)
 
         async function getdata(value){
-            var url = `https://api.nytimes.com/svc/topstories/v2/${value}.json?api-key=0Ks2Yne4EmATvRE6aFeRPD0HJjdAGyrG`
 
-            var response = await fetch(url)
-            var result = await response.json();
+            try{
+                var url = `https://api.nytimes.com/svc/topstories/v2/${value}.json?api-key=0Ks2Yne4EmATvRE6aFeRPD0HJjdAGyrG`
+                var response = await fetch(url)
+                var result = await response.json();
 
-            console.log(result.results)
+                console.log(result.results)
 
-            result.results.forEach((element)=>{
+                result.results.forEach((element)=>{
 
-                var vSection = document.createElement("div")
-                vSection.setAttribute("class","mysection")
+                    var vSection = document.createElement("div")
+                    vSection.setAttribute("class","mysection")
 
-                var vResult =document.createElement("div")
-                vResult.setAttribute("class","myresult")
+                    var vResult =document.createElement("div")
+                    vResult.setAttribute("class","myresult")
 
-                var vRSection = document.createElement("div")
-                vRSection.setAttribute("class","myRSection")
-                vRSection.innerHTML = element.section
-                vResult.appendChild(vRSection)
+                    var vRSection = document.createElement("div")
+                    vRSection.setAttribute("class","myRSection")
+                    vRSection.innerHTML = element.section
+                    vResult.appendChild(vRSection)
 
-                var vRTitle = document.createElement("div")
-                vRTitle.setAttribute("class","myRTitle")
-                vRTitle.innerHTML = element.title
-                vResult.appendChild(vRTitle)
+                    var vRTitle = document.createElement("div")
+                    vRTitle.setAttribute("class","myRTitle")
+                    vRTitle.innerHTML = element.title
+                    vResult.appendChild(vRTitle)
 
-                var vRDate = document.createElement("div")
-                vRDate.setAttribute("class","myRDate")
-                vRDate.innerHTML = element.published_date.substring(0,10)
-                vResult.appendChild(vRDate)
+                    var vRDate = document.createElement("div")
+                    vRDate.setAttribute("class","myRDate")
+                    vRDate.innerHTML = element.published_date.substring(0,10)
+                    vResult.appendChild(vRDate)
 
-                var vRAbstract = document.createElement("div")
-                vRAbstract.setAttribute("class","myRAbstract")
-                vRAbstract.innerHTML = element.abstract
-                vResult.appendChild(vRAbstract)
+                    var vRAbstract = document.createElement("div")
+                    vRAbstract.setAttribute("class","myRAbstract")
+                    vRAbstract.innerHTML = element.abstract
+                    vResult.appendChild(vRAbstract)
 
-                var vRByline = document.createElement("div")
-                vRByline.setAttribute("class","myRByline")
-                vRByline.innerHTML = "-"+element.byline
-                vResult.appendChild(vRByline)
+                    var vRByline = document.createElement("div")
+                    vRByline.setAttribute("class","myRByline")
+                    vRByline.innerHTML = "-"+element.byline
+                    vResult.appendChild(vRByline)
 
-                var vBR = document.createElement("br")
-                vResult.appendChild(vBR)
+                    var vBR = document.createElement("br")
+                    vResult.appendChild(vBR)
 
-                var vURL = document.createElement("a")
-                vURL.setAttribute("class","myvURL")
-                vURL.setAttribute("href",element.short_url)
-                vURL.setAttribute("target","_blank")
-                vURL.innerHTML = "Continue Reading"
-                vResult.appendChild(vURL)
-               
+                    var vURL = document.createElement("a")
+                    vURL.setAttribute("class","myvURL")
+                    vURL.setAttribute("href",element.short_url)
+                    vURL.setAttribute("target","_blank")
+                    vURL.innerHTML = "Continue Reading"
+                    vResult.appendChild(vURL)
+                
+                    var vImg = document.createElement("object")
+                    vImg.setAttribute("class","myimg")
+                    vImg.data= element.multimedia[4].url
 
-                var vImg = document.createElement("object")
-                vImg.setAttribute("class","myimg")
-                vImg.data= element.multimedia[4].url
-
-                vSection.appendChild(vResult)
-                vSection.appendChild(vImg)
-                vOutput.appendChild(vSection)
-
-            })              
+                    vSection.appendChild(vResult)
+                    vSection.appendChild(vImg)
+                    vOutput.appendChild(vSection)
+                })              
+            }
+            catch(err){
+                console.error(err)
+            }
         }
-
     </script>    
 </body>
 </html>
